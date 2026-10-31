@@ -1,0 +1,16 @@
+const char* ssid = "Mikkelsen"
+const char* password = "petersborg2"
+
+Specs:
+Size	= 3.7 inch
+RES	= 240x416
+
+PINS:
+red	= VCC 	= 3v3
+black	= GND	= GND
+Yellow	= SDA	= 17
+green	= SCL	= 18
+blue	= CS	= 5
+White	= D/C	= 6
+orange 	= RES	= 7
+purple 	= BUSY	= 4
