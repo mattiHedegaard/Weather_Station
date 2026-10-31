@@ -10,7 +10,7 @@ void ConnectToWiFi() {
     display.fillScreen(GxEPD_WHITE);
     display.setCursor(0,25);
     display.setTextSize(1);
-    display.printf("WiFi...:\n%s",ssid);
+    display.printf("Setting up WiFi:\n%s",ssid);
   } while (display.nextPage());
   delay(250);
 
