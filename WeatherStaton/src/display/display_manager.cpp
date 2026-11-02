@@ -22,7 +22,8 @@ void SetupDisplay(){
   display.setFont(&FreeSansBold18pt7b);
   display.setTextColor(GxEPD_BLACK);
   display.setFullWindow();
-
+  
+  /*
   display.firstPage();
   do {
     display.fillScreen(GxEPD_WHITE);
@@ -30,6 +31,7 @@ void SetupDisplay(){
     display.setTextSize(1);
     display.print("Display is setup!");
   } while (display.nextPage());
-
-  delay(1000);
+  */
+  
+  delay(10);
 }

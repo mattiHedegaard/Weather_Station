@@ -1,8 +1,8 @@
 #include <WiFi.h>
 #include "src/display/display_manager.h"
 
-const char* ssid = "Mikkelsen";
-const char* password = "petersborg2";
+const char* ssid = "FBISurveillanceVan";
+const char* password = "Petersborg2";
 
 void ConnectToWiFi() {
   display.firstPage();

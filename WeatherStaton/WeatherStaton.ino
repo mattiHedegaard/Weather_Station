@@ -3,6 +3,7 @@
 #include "src/wifi/wifi_manager.h"
 #include "src/touch/touch_button.h"
 #include "src/rgb/rgb.h"
+#include "src/roomInfo/room_info_manager.h"
 
 // Pins
 #define RGB_R 38
@@ -10,6 +11,8 @@
 #define RGB_B 40
 #define LED_Y 41
 #define BTN_PIN 46
+#define ROOM_SDA_PIN 15
+#define ROOM_SCL_PIN 16
 
 const int rgbPins[3] = {RGB_R, RGB_G, RGB_B};
 
@@ -29,49 +32,35 @@ void setup() {
   delay(250);
   ConnectToWiFi();
   delay(250);
+  SetupAQSensor(ROOM_SDA_PIN,ROOM_SCL_PIN);
+  delay(250);
 
   display.firstPage();
     do {
       display.fillScreen(GxEPD_WHITE);
       display.setCursor(0,25);
       display.setTextSize(1);
-      display.print("Ready!");
+      display.printf("Ready!");
     } while (display.nextPage());
 
 }
-int rgbState = 0;
+
+bool firstLoop = true;
 void loop() {
+    if (IsTouchPressed(BTN_PIN) || firstLoop){
+      UpdateAQSensor();
 
-  if (IsTouchPressed(BTN_PIN)){
-    const char* label = "";
-    switch (rgbState){
-        case 0:
-          RgbSetColor(rgbPins,0,0,255);
-          label = "LED Blue";
-        break;
-        case 1:
-          RgbSetColor(rgbPins,0,255,0);
-          label = "LED Green";
-        break;
-        case 2:
-          RgbSetColor(rgbPins,255,0,0);
-          label = "LED Red";
-        break;
-        case 3:
-          RgbSetColor(rgbPins,255,255,255);
-          label = "LED White";
-        break;
-      }
-
-    display.firstPage();
-    do {
-      display.fillScreen(GxEPD_WHITE);
-      display.setCursor(0,25);
-      display.setTextSize(1);
-      display.print(label);
-    } while (display.nextPage());
-
-    rgbState = (rgbState + 1) % 4;
-  }
-  
+      firstLoop = false;
+      display.firstPage();
+      do {
+        display.fillScreen(GxEPD_WHITE);
+        display.setCursor(0,25);
+        display.setTextSize(1);
+        display.print("Temp: "); display.println(GetRoomTemp());
+        display.print("Humidity: "); display.println(GetRoomHumidity());
+        display.print("eCO2: "); display.println(GetEco2());
+        display.print("TVOC: "); display.println(GetTvoc());
+        display.print("AQI: "); display.println(GetAqi(LED_Y));
+      } while (display.nextPage());
+    }
 }
