@@ -20,6 +20,14 @@ void SetupAQSensor(int sda, int scl){
 }
 
 void UpdateAQSensor() {
+  sensors_event_t hum, temp;
+  aht.getEvent(&hum, &temp);
+
+  ens160.set_envdata(
+    temp.temperature,
+    hum.relative_humidity
+  );
+
   if (ens160.available()) {
     ens160.measure(true);
   }

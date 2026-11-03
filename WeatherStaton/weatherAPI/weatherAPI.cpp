@@ -1,5 +1,6 @@
 // Weather setup
-#include <ESP8266HTTPClient.h>
+#include <WiFiClientSecure.h>
+#include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <map>
 

@@ -46,21 +46,33 @@ void setup() {
 }
 
 bool firstLoop = true;
-void loop() {
-    if (IsTouchPressed(BTN_PIN) || firstLoop){
-      UpdateAQSensor();
+unsigned long lastAQUpdate = 0;
+int AQUpdateInterval = 1000;
 
-      firstLoop = false;
-      display.firstPage();
-      do {
-        display.fillScreen(GxEPD_WHITE);
-        display.setCursor(0,25);
-        display.setTextSize(1);
-        display.print("Temp: "); display.println(GetRoomTemp());
-        display.print("Humidity: "); display.println(GetRoomHumidity());
-        display.print("eCO2: "); display.println(GetEco2());
-        display.print("TVOC: "); display.println(GetTvoc());
-        display.print("AQI: "); display.println(GetAqi(LED_Y));
-      } while (display.nextPage());
-    }
+unsigned long lastRoomUpdate = 0;
+const unsigned long roomUpdateInterval = 1UL * 60UL * 1000UL;
+
+void loop() {
+  if (millis() - lastAQUpdate >= AQUpdateInterval){
+    UpdateAQSensor();
+
+    lastAQUpdate = millis();
+  }
+
+  if (IsTouchPressed(BTN_PIN) || millis() - lastRoomUpdate >= roomUpdateInterval || firstLoop){
+    firstLoop = false;
+    lastRoomUpdate = millis();
+
+    display.firstPage();
+    do {
+      display.fillScreen(GxEPD_WHITE);
+      display.setCursor(0,25);
+      display.setTextSize(1);
+      display.print("Temp: "); display.println(GetRoomTemp());
+      display.print("Humidity: "); display.println(GetRoomHumidity());
+      display.print("eCO2: "); display.println(GetEco2());
+      display.print("TVOC: "); display.println(GetTvoc());
+      display.print("AQI: "); display.println(GetAqi(LED_Y));
+    } while (display.nextPage());
+  }
 }
