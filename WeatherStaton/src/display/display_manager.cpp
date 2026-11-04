@@ -19,7 +19,7 @@ void SetupDisplay(){
   display.init(115200,true,50,false);
   delay(100);
   display.setRotation(3);
-  display.setFont(&FreeSansBold18pt7b);
+  //display.setFont(&FreeSansBold18pt7b);
   display.setTextColor(GxEPD_BLACK);
   display.setFullWindow();
   
