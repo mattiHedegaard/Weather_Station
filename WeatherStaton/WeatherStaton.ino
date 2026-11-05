@@ -7,14 +7,20 @@
 #include "src/weatherAPI/weatherAPI.h"
 #include "src/weather_ui.h"
 
-// Pins
+// LED pins
 #define RGB_R 38
 #define RGB_G 39
 #define RGB_B 40
 #define LED_Y 41
 #define BTN_PIN 46
+// Room sensor pins
 #define ROOM_SDA_PIN 15
 #define ROOM_SCL_PIN 16
+// Display pins
+#define EPD_CS 5
+#define EPD_DC 6
+#define EPD_RST 7
+#define EPD_BUSY 4
 
 const int rgbPins[3] = {RGB_R, RGB_G, RGB_B};
 
@@ -30,7 +36,7 @@ void setup() {
   pinMode(LED_Y, OUTPUT);
   pinMode(BTN_PIN, INPUT);
 
-  SetupDisplay();
+  SetupDisplay(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY, 3);
   delay(250);
   ConnectToWiFi();
   delay(250);

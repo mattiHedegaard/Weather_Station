@@ -7,18 +7,15 @@
 // Fonts
 #include <Fonts/FreeSansBold18pt7b.h>
 
-#define EPD_CS 5
-#define EPD_DC 6
-#define EPD_RST 7
-#define EPD_BUSY 4
+DisplayType* display = nullptr;
 
-GxEPD2_BW<GxEPD2_370_GDEY037T03, GxEPD2_370_GDEY037T03::HEIGHT>display(GxEPD2_370_GDEY037T03(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
+void SetupDisplay(int csPin, int dcPin, int rstPin, int busyPin, int rotation) {
+  display = new GxEPD2_BW<GxEPD2_370_GDEY037T03, GxEPD2_370_GDEY037T03::HEIGHT>(GxEPD2_370_GDEY037T03(csPin, dcPin, rstPin, busyPin));
 
-void SetupDisplay(){
-  SPI.begin(18,-1,17,EPD_CS);
+  SPI.begin(18,-1,17,csPin);
   display.init(115200,true,50,false);
   delay(100);
-  display.setRotation(3);
+  display.setRotation(rotation);
   display.setFont(&FreeSansBold18pt7b);
   display.setTextColor(GxEPD_BLACK);
   display.setFullWindow();
