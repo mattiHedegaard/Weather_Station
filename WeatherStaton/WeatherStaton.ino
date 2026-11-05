@@ -74,10 +74,6 @@ void loop() {
       UpdateWeather();
     }
     lastRoomUpdate = millis();
-    
-
-    
-    
 
     firstLoop = false;
 
