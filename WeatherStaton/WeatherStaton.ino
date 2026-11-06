@@ -51,7 +51,10 @@ void setup() {
 
 }
 
+// initial variables
 bool firstLoop = true;
+
+// Room data
 unsigned long lastAQUpdate = 0;
 int AQUpdateInterval = 1000;
 
@@ -64,6 +67,9 @@ const unsigned long weatherUpdateInterval = 20UL * 60UL * 1000UL;
 
 int displayPage = 0;
 void loop() {
+  // Update touch state
+  TouchEvent touchState = CheckTouch(BTN_PIN);
+
   if (millis() - lastAQUpdate >= AQUpdateInterval) {
     //tone(BUZZ_PIN,1000);
     UpdateAQSensor();
@@ -72,26 +78,27 @@ void loop() {
   }
   noTone(BUZZ_PIN);
 
-  bool buttonPressed = IsTouchPressed(BTN_PIN);
   bool roomUpdate = millis() - lastRoomUpdate >= roomUpdateInterval;
   bool weatherUpdate = millis() - lastWeatherUpdate >= weatherUpdateInterval;
   bool startup = firstLoop;
+  firstLoop = false;
+  
+  if (TouchIsHold(touchState) || weatherUpdate || startup){
+    lastWeatherUpdate = millis();
+    UpdateWeather();
+    
+    uiRefresh(displayPage, LED_Y);
+  }
 
-  if (buttonPressed || roomUpdate || weatherUpdate || startup) {
-
-    // Change page only when button is pressed
-    if (buttonPressed && !startup) {
+  if (TouchIsPressed(touchState) || roomUpdate || startup) {
+    if (!startup){
       displayPage = (displayPage + 1) % 3;
     }
 
-    if (weatherUpdate || startup){
-      lastWeatherUpdate = millis();
-      UpdateWeather();
-    }
     lastRoomUpdate = millis();
-
-    firstLoop = false;
 
     uiRefresh(displayPage, LED_Y);
   }
+
+  
 }
