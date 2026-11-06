@@ -246,7 +246,7 @@ static void uiPageNow(const currentWeather &c, const UiRoom &room) {
     if (i < room.aqi) display.fillRect(x, 221, 11, 11, GxEPD_BLACK);
     else              display.drawRect(x, 221, 11, 11, GxEPD_BLACK);
   }
-  uiText(String(room.aqi) + "/5", 150, 230, &FreeSans9pt7b, GxEPD_BLACK, 2);
+  uiText(String(room.eco2), 150, 230, &FreeSans9pt7b, GxEPD_BLACK, 2);
 
   // --- right top: next 6 hours (temp rounded, precip in mm) ---
   const int rx = 164, cw = 41;

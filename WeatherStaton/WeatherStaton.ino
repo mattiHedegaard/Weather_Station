@@ -74,7 +74,6 @@ void loop() {
     //tone(BUZZ_PIN,1000);
     UpdateAQSensor();
     lastAQUpdate = millis();
-    Serial.println(GetEco2());
   }
   noTone(BUZZ_PIN);
 
@@ -82,8 +81,17 @@ void loop() {
   bool weatherUpdate = millis() - lastWeatherUpdate >= weatherUpdateInterval;
   bool startup = firstLoop;
   firstLoop = false;
+
   
   if (TouchIsHold(touchState) || weatherUpdate || startup){
+    static unsigned long buzzStart = millis();
+    const unsigned long buzzDuration = 100;
+
+    if (!startup && TouchIsHold(touchState)){
+      tone(BUZZ_PIN, 10000);
+      delay(100);
+      noTone(BUZZ_PIN);
+    }
     lastWeatherUpdate = millis();
     UpdateWeather();
     
@@ -93,12 +101,10 @@ void loop() {
   if (TouchIsPressed(touchState) || roomUpdate || startup) {
     if (!startup){
       displayPage = (displayPage + 1) % 3;
+      uiRefresh(displayPage, LED_Y);
     }
 
     lastRoomUpdate = millis();
-
-    uiRefresh(displayPage, LED_Y);
   }
-
   
 }
