@@ -1,3 +1,5 @@
 #pragma once
+#include <Arduino.h>
 
-void RgbSetColor(const int pins[3], uint8_t r, uint8_t g, uint8_t b);
+extern const int rgbPins[3];
+void RgbSetColor(uint8_t r, uint8_t g, uint8_t b, const int pins[3] = rgbPins);

@@ -8,7 +8,6 @@
 #include "src/weather_ui.h"
 //#include "src/ui/ui_elements.h"
 //#include "src/pages/page_design.h"
-#include "src/buzzer/buzzer.h"
 
 // LED pins
 #define RGB_R 38
@@ -32,7 +31,7 @@ const int rgbPins[3] = {RGB_R, RGB_G, RGB_B};
 void setup() {
   // Basic setup
   Serial.begin(115200);
-  delay(1000);
+  delay(3000);
 
   // PINS
   pinMode(RGB_R, OUTPUT);
@@ -42,6 +41,10 @@ void setup() {
   pinMode(BTN_PIN, INPUT);
   pinMode(BUZZ_PIN, OUTPUT);
 
+  // Boot light
+  RgbSetColor(200, 15, 0);
+
+  // Setup Systems
   SetupDisplay(3);
   delay(250);
   ConnectToWiFi();
@@ -84,13 +87,9 @@ void loop() {
 
   
   if (TouchIsHold(touchState) || weatherUpdate || startup){
-    static unsigned long buzzStart = millis();
-    const unsigned long buzzDuration = 100;
-
     if (!startup && TouchIsHold(touchState)){
-      tone(BUZZ_PIN, 10000);
-      delay(100);
-      noTone(BUZZ_PIN);
+      tone(BUZZ_PIN, 1760, 50);
+      RgbSetColor(140, 20, 255);
     }
     lastWeatherUpdate = millis();
     UpdateWeather();
@@ -99,10 +98,10 @@ void loop() {
   }
 
   if (TouchIsPressed(touchState) || roomUpdate || startup) {
-    if (!startup){
+    if (!startup && !roomUpdate){
       displayPage = (displayPage + 1) % 3;
-      uiRefresh(displayPage, LED_Y);
     }
+    uiRefresh(displayPage, LED_Y);
 
     lastRoomUpdate = millis();
   }

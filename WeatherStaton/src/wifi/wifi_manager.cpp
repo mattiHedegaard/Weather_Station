@@ -1,5 +1,6 @@
 #include <WiFi.h>
 #include "src/display/display_manager.h"
+#include "src/rgb/rgb.h"
 
 const char* ssid = "FBISurveillanceVan";
 const char* password = "Petersborg2";
@@ -20,8 +21,13 @@ void ConnectToWiFi() {
   int i = 1;
   while (WiFi.status() != WL_CONNECTED && i <= 100){
     Serial.print(i); Serial.print(" ");
+    if (i % 2 == 1){
+      RgbSetColor(0, 120, 255);
+    } else {
+      RgbSetColor(255, 240, 200);
+    }
     i++;
-    delay(100);
+    delay(250);
   }
 
   if (WiFi.status() != WL_CONNECTED){
@@ -31,6 +37,7 @@ void ConnectToWiFi() {
     Serial.printf("\nconnected to %s\n",ssid);
     Serial.print("Local ESP IP: ");
     Serial.println(WiFi.localIP());
+    RgbSetColor(0, 255, 0);
     display.firstPage();
     do {
       display.fillScreen(GxEPD_WHITE);
@@ -39,4 +46,5 @@ void ConnectToWiFi() {
       display.println("WiFi connected to:"); display.print(ssid);
     } while (display.nextPage());
   }
+  RgbSetColor(0, 0, 0);
 }

@@ -4,6 +4,7 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include "weatherAPI.h"
+#include "src/rgb/rgb.h"
 
 
 String url = String("https://api.open-meteo.com/v1/forecast?latitude=57.039968&longitude=9.931585&daily=weather_code,temperature_2m_max,temperature_2m_min,rain_sum,showers_sum,snowfall_sum,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,precipitation_sum&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m,snow_depth,surface_pressure,rain,snowfall,showers&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,rain,showers,snowfall,weather_code,cloud_cover,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation&timezone=Europe%2FBerlin&wind_speed_unit=ms&forecast%3Flatitude=57.05&forecast_hours=12");
@@ -66,6 +67,7 @@ const int FORECAST_DAYS = 7;
 dailyWeather dw[FORECAST_DAYS];
 
 void UpdateWeather(){
+  RgbSetColor(140, 20, 255);
   WiFiClientSecure client;
   client.setInsecure();
   HTTPClient http;
@@ -139,6 +141,7 @@ void UpdateWeather(){
     Serial.println(code);
   }
   http.end();
+  RgbSetColor(0,0,0);
 }
 
 currentWeather GetCurrentWeather(){
