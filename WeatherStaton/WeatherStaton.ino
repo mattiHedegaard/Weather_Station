@@ -6,6 +6,9 @@
 #include "src/roomInfo/room_info_manager.h"
 #include "src/weatherAPI/weatherAPI.h"
 #include "src/weather_ui.h"
+//#include "src/ui/ui_elements.h"
+//#include "src/pages/page_design.h"
+#include "src/buzzer/buzzer.h"
 
 // LED pins
 #define RGB_R 38
@@ -21,6 +24,8 @@
 #define EPD_DC 6
 #define EPD_RST 7
 #define EPD_BUSY 4
+// Buzzer Pin
+#define BUZZ_PIN 37 
 
 const int rgbPins[3] = {RGB_R, RGB_G, RGB_B};
 
@@ -35,8 +40,9 @@ void setup() {
   pinMode(RGB_B, OUTPUT);
   pinMode(LED_Y, OUTPUT);
   pinMode(BTN_PIN, INPUT);
+  pinMode(BUZZ_PIN, OUTPUT);
 
-  SetupDisplay(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY, 3);
+  SetupDisplay(3);
   delay(250);
   ConnectToWiFi();
   delay(250);
@@ -59,9 +65,12 @@ const unsigned long weatherUpdateInterval = 20UL * 60UL * 1000UL;
 int displayPage = 0;
 void loop() {
   if (millis() - lastAQUpdate >= AQUpdateInterval) {
+    //tone(BUZZ_PIN,1000);
     UpdateAQSensor();
     lastAQUpdate = millis();
+    Serial.println(GetEco2());
   }
+  noTone(BUZZ_PIN);
 
   bool buttonPressed = IsTouchPressed(BTN_PIN);
   bool roomUpdate = millis() - lastRoomUpdate >= roomUpdateInterval;

@@ -1,8 +1,9 @@
-#define UI_W   416
-#define UI_H   240
+#include <GxEPD2_BW.h>
+
+#define UI_W 416
+#define UI_H 240
 #define UI_HDR 22
 
-#ifndef UI_CITY
 #define UI_CITY "AALBORG"
 
 // UI select icon
@@ -11,6 +12,7 @@ enum { UI_SUN, UI_PART, UI_CLOUD, UI_RAIN, UI_SNOW, UI_STORM, UI_FOG };
 // Get matching icon from weather code
 /* ------------TO DO------------ */
 static int uiKind(int code) {
+  /*
   if () return UI_SUN;
   if () return UI_PART;
   if () return UI_CLOUD;
@@ -19,6 +21,7 @@ static int uiKind(int code) {
   if () return UI_SNOW;
   if () return UI_STORM;
   return UI_CLOUD;
+  */
 }
 
 static void DrawUiIcon(int code, int x, int y, int s) {

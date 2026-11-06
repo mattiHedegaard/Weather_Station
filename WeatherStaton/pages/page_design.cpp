@@ -7,4 +7,4 @@
 #include <Fonts/FreeSansBold24pt7b.h>
 
 // source files
-#include "src/ui/ui_elements"
+#include "src/ui/ui_elements.h"
