@@ -99,14 +99,14 @@ static void uiHeader(const char *title, int page) {
 }
 
 // "2026-11-05" -> "THU 5". Falls back to the raw string if it isn't an ISO date.
-static String uiDayLabel(const String &t) {
+static String uiDayLabel(const String &t, bool getMonth = false) {
   int y, m, d;
   if (sscanf(t.c_str(), "%d-%d-%d", &y, &m, &d) == 3) {
     struct tm tmv = {};
     tmv.tm_year = y - 1900; tmv.tm_mon = m - 1; tmv.tm_mday = d; tmv.tm_hour = 12;
     mktime(&tmv);  // fills in tm_wday, no NTP needed
     static const char *wd[] = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
-    return String(wd[tmv.tm_wday]) + " " + String(d);
+    return String(wd[tmv.tm_wday]) + " " + String(d) + (!getMonth ? "" : "/" + String(m));
   }
   return t;
 }
@@ -217,13 +217,23 @@ static void uiIcon(int code, int x, int y, int s) {
   }
 }
 
+String GetTimeString(){
+  struct tm ti;
+  if (!getLocalTime(&ti, 100)) return "--:--";
+  char buf[6];
+  strftime(buf, sizeof(buf), "%H:%M", &ti);
+  return String(buf);
+}
+
 // --------------------------------------------------------------- pages ----
 
 // Page 1: dashboard. Left: outside now + room strip. Right: next 6 hours + next 5 days.
 static void uiPageNow(const currentWeather &c, const UiRoom &room) {
-  uiHeader(UI_CITY, 0);
+  
   dailyWeather today = GetDailyWeather(0);
-  uiText(uiDayLabel(String(today.time)), UI_W - 48, 16, &FreeSansBold9pt7b, GxEPD_WHITE, 2);
+  String title = String(UI_CITY) + " - " + GetTimeString();
+  uiHeader(title.c_str(), 0);
+  uiText(uiDayLabel(String(today.time), true), UI_W - 48, 16, &FreeSansBold9pt7b, GxEPD_WHITE, 2);
   display.fillRect(158, UI_HDR, 2, UI_H - UI_HDR, GxEPD_BLACK);  // column divider
 
   // --- left: outside now ---
@@ -343,10 +353,7 @@ static void uiPageDaily() {
   }
 }
 
-// ---------------------------------------------------------------- entry ----
 
-// Call this instead of the old printInfo() body.
-// aqiLedPin is passed in because LED_Y is #defined in the .ino AFTER the includes.
 static void uiRefresh(int page, int aqiLedPin) {
   currentWeather cur = GetCurrentWeather();
 

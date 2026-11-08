@@ -141,7 +141,6 @@ void UpdateWeather(){
     Serial.println(code);
   }
   http.end();
-  RgbSetColor(0,0,0);
 }
 
 currentWeather GetCurrentWeather(){

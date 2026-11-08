@@ -19,7 +19,8 @@ void ConnectToWiFi() {
   Serial.printf("Connecting to %s\n",ssid);
 
   int i = 1;
-  while (WiFi.status() != WL_CONNECTED && i <= 100){
+  int phantomDelay = 10;
+  while (WiFi.status() != WL_CONNECTED && i <= 100 || i <= phantomDelay){
     Serial.print(i); Serial.print(" ");
     if (i % 2 == 1){
       RgbSetColor(0, 120, 255);
@@ -38,6 +39,7 @@ void ConnectToWiFi() {
     Serial.print("Local ESP IP: ");
     Serial.println(WiFi.localIP());
     RgbSetColor(0, 255, 0);
+    configTzTime("CET-1CEST,M3.5.0,M10.5.0/3", "pool.ntp.org");
     display.firstPage();
     do {
       display.fillScreen(GxEPD_WHITE);

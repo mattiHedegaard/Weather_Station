@@ -66,7 +66,7 @@ const unsigned long roomUpdateInterval = 5UL * 60UL * 1000UL;
 
 // Weather data
 unsigned long lastWeatherUpdate = 0;
-const unsigned long weatherUpdateInterval = 20UL * 60UL * 1000UL;
+const unsigned long weatherUpdateInterval = 30UL * 60UL * 1000UL;
 
 int displayPage = 0;
 void loop() {
@@ -74,15 +74,14 @@ void loop() {
   TouchEvent touchState = CheckTouch(BTN_PIN);
 
   if (millis() - lastAQUpdate >= AQUpdateInterval) {
-    //tone(BUZZ_PIN,1000);
     UpdateAQSensor();
     lastAQUpdate = millis();
   }
-  noTone(BUZZ_PIN);
 
   bool roomUpdate = millis() - lastRoomUpdate >= roomUpdateInterval;
   bool weatherUpdate = millis() - lastWeatherUpdate >= weatherUpdateInterval;
   bool startup = firstLoop;
+  bool justRefreshed = false;
   firstLoop = false;
 
   
@@ -91,13 +90,19 @@ void loop() {
       tone(BUZZ_PIN, 1760, 50);
       RgbSetColor(140, 20, 255);
     }
-    lastWeatherUpdate = millis();
-    UpdateWeather();
     
+    UpdateWeather();
     uiRefresh(displayPage, LED_Y);
+    RgbSetColor(0,0,0);
+    justRefreshed = true;
+
+    lastWeatherUpdate = millis();
+    lastRoomUpdate = millis();
   }
 
-  if (TouchIsPressed(touchState) || roomUpdate || startup) {
+  
+
+  if ((TouchIsPressed(touchState) || roomUpdate) && (!justRefreshed)) {
     if (!startup && !roomUpdate){
       displayPage = (displayPage + 1) % 3;
     }
