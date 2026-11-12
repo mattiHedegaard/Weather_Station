@@ -1,8 +1,8 @@
 #include <ESP8266WiFi.h>
 
 // WiFi
-const char* ssid = "FBISurveillanceVan";
-const char* password = "Petersborg2";
+const char* ssid = "wifi_ssid";
+const char* password = "wifi_password";
 
 // Weather
 #include <ESP8266HTTPClient.h>

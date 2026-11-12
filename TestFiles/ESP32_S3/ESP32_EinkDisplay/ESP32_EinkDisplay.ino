@@ -36,8 +36,8 @@ void SetupDisplay(){
 // Wifi setup
 #include <WiFi.h>
 
-const char* ssid = "Mikkelsen";
-const char* password = "petersborg2";
+const char* ssid = "wifi_ssid";
+const char* password = "wifi_password";
 
 void ConnectToWiFi() {
   WiFi.mode(WIFI_STA);

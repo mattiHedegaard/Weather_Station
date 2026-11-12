@@ -1,8 +1,6 @@
 #include <WiFi.h>
 #include "src/display/display_manager.h"
-
-const char* ssid = "FBISurveillanceVan";
-const char* password = "Petersborg2";
+#include "src/wifi_info.h"
 
 void ConnectToWiFi() {
   display.firstPage();
@@ -14,8 +12,8 @@ void ConnectToWiFi() {
   } while (display.nextPage());
 
   WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid,password);
-  Serial.printf("Connecting to %s\n",ssid);
+  WiFi.begin(WIFI_SSID,WIFI_PASSWORD);
+  Serial.printf("Connecting to %s\n",WIFI_SSID);
 
   int i = 1;
   while (WiFi.status() != WL_CONNECTED && i <= 100){
@@ -30,7 +28,7 @@ void ConnectToWiFi() {
     
     delay(250);
   } else{
-    Serial.printf("\nconnected to %s\n",ssid);
+    Serial.printf("\nconnected to %s\n",WIFI_SSID);
     Serial.print("Local ESP IP: ");
     Serial.println(WiFi.localIP());
   }

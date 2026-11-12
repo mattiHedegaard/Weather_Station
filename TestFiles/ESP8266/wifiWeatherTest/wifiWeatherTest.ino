@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 
-const char* ssid = "FBISurveillanceVan";
-const char* password = "Petersborg2";
+const char* ssid = "wifi_ssid";
+const char* password = "wifi_password";
 
 void setup() {
   Serial.begin(9600);
