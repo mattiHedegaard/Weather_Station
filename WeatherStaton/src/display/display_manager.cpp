@@ -12,11 +12,13 @@
 #define EPD_DC 6
 #define EPD_RST 7
 #define EPD_BUSY 4
+#define EDO_SDA 17
+#define EDO_SCL 18
 
 GxEPD2_BW<GxEPD2_370_GDEY037T03, GxEPD2_370_GDEY037T03::HEIGHT> display(GxEPD2_370_GDEY037T03(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
 
 void SetupDisplay(int rotation) {
-  SPI.begin(18,-1,17,EPD_CS);
+  SPI.begin(EDO_SCL,-1,EDO_SDA,EPD_CS);
   display.init(115200,true,50,false);
   delay(100);
   display.setRotation(rotation);

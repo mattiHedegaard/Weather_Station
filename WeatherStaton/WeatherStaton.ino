@@ -66,7 +66,8 @@ const unsigned long roomUpdateInterval = 5UL * 60UL * 1000UL;
 
 // Weather data
 unsigned long lastWeatherUpdate = 0;
-const unsigned long weatherUpdateInterval = 30UL * 60UL * 1000UL;
+const unsigned long weatherUpdateInterval = 5UL * 60UL * 1000UL;
+String weatherUpdateTime = GetTimeString();
 
 int displayPage = 0;
 void loop() {
@@ -86,12 +87,13 @@ void loop() {
 
   
   if (TouchIsHold(touchState) || weatherUpdate || startup){
-    if (!startup && TouchIsHold(touchState)){
+    if (startup || TouchIsHold(touchState)){
       tone(BUZZ_PIN, 1760, 50);
       RgbSetColor(140, 20, 255);
     }
     
     UpdateWeather();
+    weatherUpdateTime = GetTimeString();
     uiRefresh(displayPage, LED_Y);
     RgbSetColor(0,0,0);
     justRefreshed = true;

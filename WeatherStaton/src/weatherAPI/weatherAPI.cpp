@@ -67,7 +67,7 @@ const int FORECAST_DAYS = 7;
 dailyWeather dw[FORECAST_DAYS];
 
 void UpdateWeather(){
-  RgbSetColor(140, 20, 255);
+  //RgbSetColor(140, 20, 255);
   WiFiClientSecure client;
   client.setInsecure();
   HTTPClient http;
