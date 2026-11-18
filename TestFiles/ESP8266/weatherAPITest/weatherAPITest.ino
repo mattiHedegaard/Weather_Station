@@ -9,8 +9,8 @@ const char* password = "password";
 #include <WiFiClientSecure.h>
 #include <ArduinoJson.h>
 
-const char* apiKey = "557548360f0a5cbcc24c517d390c8e45";
-const char* city = "Aalborg,DK";
+const char* apiKey = "apiKey";
+const char* city = "City,Country";
 
 unsigned long  lastFetch = 0;
 const unsigned long interval = 5000;
