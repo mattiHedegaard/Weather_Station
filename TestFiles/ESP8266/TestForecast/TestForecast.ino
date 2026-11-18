@@ -23,7 +23,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 unsigned long lastFetch = 0;
 const unsigned long fetchInterval = 60000;
 int weatherWarningIds[] = {75,82,86,95,96,97,99};
-String url = String("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=9.92&daily=weather_code,temperature_2m_max,temperature_2m_min,rain_sum,showers_sum,snowfall_sum,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,precipitation_sum&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m,snow_depth,surface_pressure,rain,snowfall,showers&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,rain,showers,snowfall,weather_code,cloud_cover,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation&timezone=Europe%2FBerlin&wind_speed_unit=ms&forecast%3Flatitude=57.05&forecast_hours=12");
+String url = String("openMeteoLink");
 
 // Weather codes
 const char* GetWeatherDescription(int code) {
