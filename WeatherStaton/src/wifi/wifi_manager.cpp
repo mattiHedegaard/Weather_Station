@@ -1,9 +1,7 @@
 #include <WiFi.h>
 #include "src/display/display_manager.h"
 #include "src/rgb/rgb.h"
-
-const char* ssid = "FBISurveillanceVan";
-const char* password = "Petersborg2";
+#include "src/secrets/wifi_info.h"
 
 void ConnectToWiFi() {
   display.firstPage();
@@ -11,12 +9,12 @@ void ConnectToWiFi() {
     display.fillScreen(GxEPD_WHITE);
     display.setCursor(0,25);
     display.setTextSize(1);
-    display.println("Conecting to WiFi:"); display.print(ssid);
+    display.println("Conecting to WiFi:"); display.print(WIFI_SSID);
   } while (display.nextPage());
 
   WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid,password);
-  Serial.printf("Connecting to %s\n",ssid);
+  WiFi.begin(WIFI_SSID,WIFI_PASSWORD);
+  Serial.printf("Connecting to %s\n",WIFI_SSID);
 
   int i = 1;
   int phantomDelay = 10;
@@ -35,7 +33,7 @@ void ConnectToWiFi() {
     Serial.println("\nWiFi failed to connect");
     delay(250);
   } else{
-    Serial.printf("\nconnected to %s\n",ssid);
+    Serial.printf("\nconnected to %s\n",WIFI_SSID);
     Serial.print("Local ESP IP: ");
     Serial.println(WiFi.localIP());
     RgbSetColor(0, 255, 0);
@@ -45,7 +43,7 @@ void ConnectToWiFi() {
       display.fillScreen(GxEPD_WHITE);
       display.setCursor(0,25);
       display.setTextSize(1);
-      display.println("WiFi connected to:"); display.print(ssid);
+      display.println("WiFi connected to:"); display.print(WIFI_SSID);
     } while (display.nextPage());
   }
   RgbSetColor(0, 0, 0);
