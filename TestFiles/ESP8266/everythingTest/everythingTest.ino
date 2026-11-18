@@ -20,7 +20,11 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 #include <WiFiClientSecure.h>
 #include <ArduinoJson.h>
 
+<<<<<<< HEAD:TestFiles/ESP8266/everythingTest/everythingTest.ino
 const char* apiKey = "apiKey";
+=======
+const char* apiKey = "key";
+>>>>>>> 1180a88784a55837d5199244be782e45f6448282:ESP8266/everythingTest/everythingTest.ino
 const char* city = "City,Country";
 
 unsigned long  lastFetch = 0;
