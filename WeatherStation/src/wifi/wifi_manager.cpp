@@ -1,6 +1,6 @@
 #include <WiFi.h>
 #include "src/display/display_manager.h"
-#include "src/wifi_info.h"
+#include "src/secrets/wifi_info.h"
 
 void ConnectToWiFi() {
   display.firstPage();
